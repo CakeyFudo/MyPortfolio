@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Industry Immersion Tour</title>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0a1026;
+      background-size: 420px 420px;
+      font-family: 'Press Start 2P', monospace, cursive;
+      overflow-x: hidden;
+    }
+    .stars {
+      position: absolute;
+      width: 100vw;
+      min-height: 1000%;
+      left: 0; top: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .star {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: transparent;
+    }
+    .star::before, .star::after {
+      content: '';
+      position: absolute;
+      background: #fff;
+      border-radius: 1px;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    .star::before {
+      width: 10px;
+      height: 2px;
+      left: 0; top: 4px;
+    }
+    .star::after {
+      width: 2px;
+      height: 10px;
+      left: 4px; top: 0;
+    }
+    @keyframes blink-star {
+      0%, 100% { opacity: 0.85; }
+      50% { opacity: 0.2; }
+    }
+    .star.blink1::before, .star.blink1::after { animation: blink-star 1.2s infinite; }
+    .star.blink2::before, .star.blink2::after { animation: blink-star 1.6s infinite 0.5s; }
+    .star.blink3::before, .star.blink3::after { animation: blink-star 2s infinite 1s; }
+
+    .about-frame {
+      padding: 3vw 2vw;
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 10; /* Increase z-index to ensure it's above .stars */
+      background: rgba(10,16,38,0.92);
+      margin: 5vw auto 0 auto;
+      max-width: 700px;
+      box-shadow: 0 0 32px #000a;
+    }
+    .about-title {
+      font-family: 'Press Start 2P', monospace, cursive;
+      color: #ffd32a;
+      font-size: 2.2vw;
+      letter-spacing: 8px;
+      margin-bottom: 2.5rem;
+      text-shadow: 2px 2px 0 #000, 0 0 8px #ffd32a;
+      text-align: center;
+      background: transparent;
+      border-radius: 16px;
+      padding: 0.7rem 2.5rem;
+      border: none;
+      margin-top: -2vw;
+      margin-bottom: 2vw;
+      box-shadow: none;
+      display: inline-block;
+    }
+    .blog-content {
+      color: #fff;
+      font-size: 1vw;
+      text-align: left;
+      line-height: 2.2;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 0 #000;
+      margin-bottom: 2vw;
+      padding: 1vw 2vw;
+      background: rgba(20,24,48,0.7);
+      border-radius: 12px;
+      box-shadow: 0 0 8px #0006;
+      max-width: 600px;
+    }
+    .back-btn {
+      cursor: pointer;
+      z-index: 10;
+      text-decoration: none;
+      transition: color 0.15s;
+      font-family: 'Press Start 2P', monospace, cursive;
+      color: #ffd32a;
+      font-size: 1vw;
+      margin-bottom: 2vw;
+      text-shadow: 1px 1px 0 #000;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .back-btn .arrow {
+      font-size: 2vw;
+      color: #ff9800;
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+    }
+    .back-btn:hover,
+    .back-btn:hover .arrow {
+      color: #ffd32a;
+    }
+    .back-btn:hover .arrow {
+      transform: translateX(-8px) scale(1.1);
+    }
+    .asteroid-invert {
+      filter: invert(1);
+      transform: rotate(180deg);
+    }
+    #atmosphere-effect {
+      width: 100vw;
+      min-height: 120vh; /* or more if you want a longer effect */
+      margin: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,16,38,0) 0%,
+        #7ecfff 40%,
+        #b3e0ff 80%,
+        #e6f7ff 100%
+      );
+      animation: fadeAtmosphere 1.5s;
+    }
+    @keyframes fadeAtmosphere {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    #effects-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    #bottom-gradient {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(
+        to top,
+        rgba(10, 16, 38, 0.8) 0%,
+        rgba(10, 16, 38, 0) 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+    @keyframes spinAsteroid {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+
+    .atmosphere-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2vw;
+      justify-content: center;
+      margin: 3vw 0;
+    }
+    .atmosphere-gallery div {
+      flex: 1 1 200px;
+      max-width: 300px;
+      min-width: 200px;
+      /* Remove aspect-ratio and background so the outline fits the image */
+      aspect-ratio: unset;
+      background: none;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2vw;
+      padding: 0;
+    }
+    .atmosphere-gallery img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 300px;
+      border-radius: 14px;
+      box-shadow: 0 0 8px #7ecfff;
+    }
+
+    #atmosphere-effect,
+    #atmosphere-effect * {
+      pointer-events: auto !important;
+    }
+
+    #imgOverlay {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(10,16,38,0.95);
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="stars">
+    <div class="star blink1" style="top:12%; left:18%;"></div>
+    <div class="star blink2" style="top:22%; left:70%;"></div>
+    <div class="star blink3" style="top:60%; left:30%;"></div>
+    <div class="star blink1" style="top:80%; left:80%;"></div>
+    <div class="star blink2" style="top:40%; left:50%;"></div>
+    <div class="star blink3" style="top:75%; left:10%;"></div>
+    <div class="star blink1" style="top:10%; left:60%;"></div>
+    <div class="star blink2" style="top:55%; left:85%;"></div>
+    <div class="star blink2" style="top:30%; left:25%;"></div>
+    <div class="star blink1" style="top:15%; left:40%;"></div>
+    <div class="star blink2" style="top:35%; left:60%;"></div>
+    <div class="star blink3" style="top:50%; left:80%;"></div>
+    <div class="star blink1" style="top:65%; left:20%;"></div>
+    <div class="star blink2" style="top:85%; left:55%;"></div>
+    <div class="star blink3" style="top:25%; left:85%;"></div>
+    <div class="star blink1" style="top:5%; left:5%;"></div>
+    <div class="star blink2" style="top:95%; left:95%;"></div>
+    <div class="star blink3" style="top:50%; left:10%;"></div>
+    <div class="star blink1" style="top:70%; left:70%;"></div>
+    <div class="star blink2" style="top:80%; left:35%;"></div>
+    <div class="star blink1" style="top:8%; left:33%;"></div>
+    <div class="star blink2" style="top:18%; left:77%;"></div>
+    <div class="star blink3" style="top:28%; left:12%;"></div>
+    <div class="star blink1" style="top:38%; left:92%;"></div>
+    <div class="star blink2" style="top:48%; left:63%;"></div>
+    <div class="star blink3" style="top:58%; left:44%;"></div>
+    <div class="star blink1" style="top:68%; left:15%;"></div>
+    <div class="star blink2" style="top:78%; left:58%;"></div>
+    <div class="star blink3" style="top:88%; left:28%;"></div>
+    <div class="star blink1" style="top:20%; left:90%;"></div>
+    <div class="star blink2" style="top:32%; left:5%;"></div>
+    <div class="star blink3" style="top:44%; left:80%;"></div>
+    <div class="star blink1" style="top:56%; left:38%;"></div>
+    <div class="star blink2" style="top:68%; left:73%;"></div>
+    <div class="star blink3" style="top:79%; left:49%;"></div>
+    <div class="star blink1" style="top:91%; left:22%;"></div>
+    <div class="star blink2" style="top:13%; left:53%;"></div>
+    <div class="star blink3" style="top:27%; left:67%;"></div>
+    <div class="star blink1" style="top:59%; left:88%;"></div>
+    <div class="star blink2" style="top:83%; left:12%;"></div>
+    <div class="star blink3" style="top:97%; left:41%;"></div>
+    <div class="star blink1" style="top:3%; left:12%;"></div>
+    <div class="star blink2" style="top:17%; left:61%;"></div>
+    <div class="star blink3" style="top:23%; left:44%;"></div>
+    <div class="star blink1" style="top:36%; left:78%;"></div>
+    <div class="star blink2" style="top:42%; left:15%;"></div>
+    <div class="star blink3" style="top:53%; left:57%;"></div>
+    <div class="star blink1" style="top:62%; left:81%;"></div>
+    <div class="star blink2" style="top:74%; left:25%;"></div>
+    <div class="star blink3" style="top:86%; left:66%;"></div>
+    <div class="star blink1" style="top:93%; left:33%;"></div>
+    <div class="star blink2" style="top:11%; left:88%;"></div>
+    <div class="star blink3" style="top:29%; left:59%;"></div>
+    <div class="star blink1" style="top:47%; left:72%;"></div>
+    <div class="star blink2" style="top:54%; left:19%;"></div>
+    <div class="star blink3" style="top:67%; left:38%;"></div>
+    <div class="star blink1" style="top:76%; left:92%;"></div>
+    <div class="star blink2" style="top:82%; left:47%;"></div>
+    <div class="star blink3" style="top:99%; left:7%;"></div>
+    <div class="star blink1" style="top:15%; left:10%;"></div>
+    <div class="star blink2" style="top:25%; left:60%;"></div>
+    <div class="star blink3" style="top:35%; left:80%;"></div>
+    <div class="star blink1" style="top:45%; left:30%;"></div>
+    <div class="star blink2" style="top:55%; left:90%;"></div>
+    <div class="star blink3" style="top:65%; left:50%;"></div>
+    <div class="star blink1" style="top:75%; left:70%;"></div>
+    <div class="star blink2" style="top:85%; left:20%;"></div>
+    <div class="star blink3" style="top:95%; left:80%;"></div>
+    <div class="star blink1" style="top:10%; left:85%;"></div>
+    <div class="star blink2" style="top:20%; left:35%;"></div>
+    <div class="star blink3" style="top:30%; left:55%;"></div>
+    <div class="star blink1" style="top:40%; left:75%;"></div>
+    <div class="star blink2" style="top:50%; left:15%;"></div>
+    <div class="star blink3" style="top:60%; left:95%;"></div>
+    <div class="star blink1" style="top:70%; left:45%;"></div>
+    <div class="star blink2" style="top:80%; left:65%;"></div>
+    <div class="star blink3" style="top:90%; left:5%;"></div>
+    <!-- Extra stars for tripled density -->
+    <div class="star blink1" style="top:6%; left:22%;"></div>
+    <div class="star blink2" style="top:18%; left:42%;"></div>
+    <div class="star blink3" style="top:27%; left:77%;"></div>
+    <div class="star blink1" style="top:33%; left:12%;"></div>
+    <div class="star blink2" style="top:41%; left:88%;"></div>
+    <div class="star blink3" style="top:53%; left:21%;"></div>
+    <div class="star blink1" style="top:61%; left:34%;"></div>
+    <div class="star blink2" style="top:73%; left:56%;"></div>
+    <div class="star blink3" style="top:82%; left:78%;"></div>
+    <div class="star blink1" style="top:91%; left:11%;"></div>
+    <div class="star blink2" style="top:99%; left:63%;"></div>
+    <div class="star blink3" style="top:12%; left:91%;"></div>
+    <div class="star blink1" style="top:24%; left:51%;"></div>
+    <div class="star blink2" style="top:38%; left:71%;"></div>
+    <div class="star blink3" style="top:49%; left:31%;"></div>
+    <div class="star blink1" style="top:57%; left:81%;"></div>
+    <div class="star blink2" style="top:69%; left:41%;"></div>
+    <div class="star blink3" style="top:77%; left:91%;"></div>
+    <div class="star blink1" style="top:85%; left:51%;"></div>
+    <div class="star blink2" style="top:93%; left:71%;"></div>
+    <div class="star blink3" style="top:17%; left:17%;"></div>
+    <div class="star blink1" style="top:29%; left:27%;"></div>
+    <div class="star blink2" style="top:39%; left:37%;"></div>
+    <div class="star blink3" style="top:59%; left:47%;"></div>
+    <div class="star blink1" style="top:79%; left:57%;"></div>
+    <div class="star blink2" style="top:89%; left:67%;"></div>
+    <div class="star blink3" style="top:99%; left:77%;"></div>
+    <div class="star blink1" style="top:13%; left:87%;"></div>
+    <div class="star blink2" style="top:23%; left:77%;"></div>
+    <div class="star blink3" style="top:33%; left:67%;"></div>
+    <div class="star blink1" style="top:43%; left:57%;"></div>
+    <div class="star blink2" style="top:53%; left:47%;"></div>
+    <div class="star blink3" style="top:63%; left:37%;"></div>
+    <div class="star blink1" style="top:73%; left:27%;"></div>
+    <div class="star blink2" style="top:83%; left:17%;"></div>
+    <div class="star blink3" style="top:93%; left:7%;"></div>
+    <div class="star blink1" style="top:21%; left:81%;"></div>
+    <div class="star blink2" style="top:31%; left:61%;"></div>
+    <div class="star blink3" style="top:41%; left:41%;"></div>
+    <div class="star blink1" style="top:51%; left:21%;"></div>
+    <div class="star blink2" style="top:61%; left:1%;"></div>
+    <div class="star blink3" style="top:71%; left:81%;"></div>
+    <div class="star blink1" style="top:81%; left:61%;"></div>
+    <div class="star blink2" style="top:91%; left:41%;"></div>
+    <div class="star blink3" style="top:99%; left:21%;"></div>
+    <!-- Add these inside your .stars div for even more stars (quadruple density!) -->
+    <div class="star blink1" style="top:2%; left:8%;"></div>
+    <div class="star blink2" style="top:7%; left:28%;"></div>
+    <div class="star blink3" style="top:12%; left:48%;"></div>
+    <div class="star blink1" style="top:17%; left:68%;"></div>
+    <div class="star blink2" style="top:22%; left:88%;"></div>
+    <div class="star blink3" style="top:27%; left:18%;"></div>
+    <div class="star blink1" style="top:32%; left:38%;"></div>
+    <div class="star blink2" style="top:37%; left:58%;"></div>
+    <div class="star blink3" style="top:42%; left:78%;"></div>
+    <div class="star blink1" style="top:47%; left:98%;"></div>
+    <div class="star blink2" style="top:52%; left:8%;"></div>
+    <div class="star blink3" style="top:57%; left:28%;"></div>
+    <div class="star blink1" style="top:62%; left:48%;"></div>
+    <div class="star blink2" style="top:67%; left:68%;"></div>
+    <div class="star blink3" style="top:72%; left:88%;"></div>
+    <div class="star blink1" style="top:77%; left:18%;"></div>
+    <div class="star blink2" style="top:82%; left:38%;"></div>
+    <div class="star blink3" style="top:87%; left:58%;"></div>
+    <div class="star blink1" style="top:92%; left:78%;"></div>
+    <div class="star blink2" style="top:97%; left:98%;"></div>
+    <div class="star blink3" style="top:4%; left:14%;"></div>
+    <div class="star blink1" style="top:9%; left:34%;"></div>
+    <div class="star blink2" style="top:14%; left:54%;"></div>
+    <div class="star blink3" style="top:19%; left:74%;"></div>
+    <div class="star blink1" style="top:24%; left:94%;"></div>
+    <div class="star blink2" style="top:29%; left:14%;"></div>
+    <div class="star blink3" style="top:34%; left:34%;"></div>
+    <div class="star blink1" style="top:39%; left:54%;"></div>
+    <div class="star blink2" style="top:44%; left:74%;"></div>
+    <div class="star blink3" style="top:49%; left:94%;"></div>
+    <div class="star blink1" style="top:54%; left:14%;"></div>
+    <div class="star blink2" style="top:59%; left:34%;"></div>
+    <div class="star blink3" style="top:64%; left:54%;"></div>
+    <div class="star blink1" style="top:69%; left:74%;"></div>
+    <div class="star blink2" style="top:74%; left:94%;"></div>
+    <div class="star blink3" style="top:79%; left:14%;"></div>
+    <div class="star blink1" style="top:84%; left:34%;"></div>
+    <div class="star blink2" style="top:89%; left:54%;"></div>
+    <div class="star blink3" style="top:94%; left:74%;"></div>
+    <!-- Add these extra stars in your .stars div to fill in bald areas and create a more even spread -->
+    <div class="star blink1" style="top:5%; left:55%;"></div>
+    <div class="star blink2" style="top:11%; left:77%;"></div>
+    <div class="star blink3" style="top:16%; left:41%;"></div>
+    <div class="star blink1" style="top:21%; left:12%;"></div>
+    <div class="star blink2" style="top:27%; left:53%;"></div>
+    <div class="star blink3" style="top:33%; left:85%;"></div>
+    <div class="star blink1" style="top:38%; left:23%;"></div>
+    <div class="star blink2" style="top:43%; left:67%;"></div>
+    <div class="star blink3" style="top:48%; left:36%;"></div>
+    <div class="star blink1" style="top:53%; left:12%;"></div>
+    <div class="star blink2" style="top:58%; left:77%;"></div>
+    <div class="star blink3" style="top:63%; left:41%;"></div>
+    <div class="star blink1" style="top:68%; left:12%;"></div>
+    <div class="star blink2" style="top:73%; left:53%;"></div>
+    <div class="star blink3" style="top:78%; left:85%;"></div>
+    <div class="star blink1" style="top:83%; left:23%;"></div>
+    <div class="star blink2" style="top:88%; left:67%;"></div>
+    <div class="star blink3" style="top:93%; left:36%;"></div>
+    <div class="star blink1" style="top:97%; left:55%;"></div>
+    <div class="star blink2" style="top:2%; left:33%;"></div>
+    <div class="star blink3" style="top:14%; left:61%;"></div>
+    <div class="star blink1" style="top:26%; left:44%;"></div>
+    <div class="star blink2" style="top:39%; left:19%;"></div>
+    <div class="star blink3" style="top:51%; left:72%;"></div>
+    <div class="star blink1" style="top:64%; left:29%;"></div>
+    <div class="star blink2" style="top:77%; left:59%;"></div>
+    <div class="star blink3" style="top:89%; left:81%;"></div>
+  </div>
+  <div class="about-frame">
+    <a href="index.html" class="back-btn"><span class="arrow">&#8592;</span>BACK</a>
+    <div class="about-title">INDUSTRY IMMERSION TOUR</div>
+    <div class="blog-content"> 
+      <p>
+        In this blog I will talk about our immersion tour in Manila from day 1 to day 8.<br>
+        We visited 6 total tech related companies and after that we were also given a chance to explore Manila. That includes going to tourist spots and also getting to know the history of Manila and origins of specific places.
+      </p>
+      <div class="blog-images" style="display: flex; justify-content: center; margin-top: 2vw;">
+        <img src="day0.webp" alt="Industry Immersion Tour" style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div>
+    <div class="blog-content" style="margin-top: 2vw;">
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
+        Day 1
+      </div>
+      <p>
+        Our first day is when we arrived in NAIA Terminal 3. We were greeted by our tour guide and then we went to MOA (Mall of Asia) to have explore. After that we went to our Dormitory to rest for a while. In the evening, we had a welcome dinner and where me and my classmates shared our expectations for the tour.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+        <img 
+          src="day1.webp" 
+          alt="Day 1 - Industry Immersion Tour" 
+          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div>
+    <div class="blog-content" style="margin-top: 2vw;">
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
+        Day 2
+      </div>
+      <p>
+        Day 2 started with a visit to our first tech company which is FOUNDEVER. We had the opportunity to meet with their team, learn about their projects, and understand their work culture. In the afternoon we visited another tech company a very known company which is GOOGLE and we had a chance to see their office.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+        <img 
+          src="day2.webp" 
+          alt="Day 2 - Industry Immersion Tour" 
+          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div>
+    <div class="blog-content" style="margin-top: 2vw;">
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
+        Day 3
+      </div>
+      <p>
+        On the third day, we visited a tech company called Teleperformance. We learned about their operations and how they handle customer serivices. The afternoon we visisted another tech company called Kollab where we learned about culture and some tips and tricks on making a porfolio and how AI is very heplful in the tech industry.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+        <img 
+          src="day3.webp" 
+          alt="Day 3 - Industry Immersion Tour" 
+          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div>
+    <div class="blog-content" style="margin-top: 2vw;">
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
+        Day 4
+      </div>
+      <p>
+        On the last day of visiting tech companies we visited a company called ADB (Asian Development Bank). We learned about their history and their employees and we also had a tour of their offices. After that we visited our last tech company which is called Microsourcing we had a tour of their offices and learned about their projects and how they operate.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+        <img 
+          src="day4.webp" 
+          alt="Day 4 - Industry Immersion Tour" 
+          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div>
+    <div class="blog-content" style="margin-top: 2vw;">
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
+        Day 5
+      </div>
+      <p>
+        On day 5 we headed to Tagatay to visit the People's Park in the sky. We enjoyed the scenic views and took many photos. After that we went to Skyranch Tagatay where we enjoyed the rides and had a lot of fun. In the evening we went to Trinoma Mall to do some shopping and have dinner.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+        <img 
+          src="day5.webp" 
+          alt="Day 5 - Industry Immersion Tour" 
+          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div>
+    <div class="blog-content" style="margin-top: 2vw;">
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
+        Day 6
+      </div>
+      <p>
+       We packed up our bags because we are going to Baguio City. We took a bus to Baguio and enjoyed the scenic views along the way. When we arrived in Baguio, we checked into our hotel and then went to Burnham Park to relax and enjoy the cool weather. In the evening, we visited the night market and tried some of the famous Baguio dishes.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+        <img 
+          src="day6.webp" 
+          alt="Day 6 - Industry Immersion Tour" 
+          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div>
+    <div class="blog-content" style="margin-top: 2vw;">
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
+        Day 7
+      </div>
+      <p>
+        On this day we were given the free time to roam around Baguio City. We hiked our way to the SM City Baguio where it is famous for being the only mall to not have air conditioning. After that we went back to Quezon City because majority of us are going to fly back home the next day.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+        <img 
+          src="day7.webp" 
+          alt="Day 7 - Industry Immersion Tour" 
+          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div>
+    <div class="blog-content" style="margin-top: 2vw;">
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
+        Day 8
+      </div>
+      <p>
+        On day 8 we packed our bag and checked out of the Dormitory said our goodbyes to our tour guide and classmates. Me and my friends extended our stay in Manila for 3 more days to explore more of Manila. We visited Intramuros, Rizal Park, and other famous landmarks in Manila. We also tried some of the famous Filipino dishes and bought some souvenirs to bring back home.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+        <img 
+          src="day8.webp" 
+          alt="Day 8 - Industry Immersion Tour" 
+          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      </div>
+    </div> <!-- This closes .about-frame -->
+  </div>
+  <div id="atmosphere-effect">
+    <!-- Place this inside your #atmosphere-effect div for placeholders "inside the atmosphere" -->
+    <div style="height: 8vw;"></div> <!-- Add vertical space at the top -->
+    <div class="atmosphere-gallery"
+         style="display: flex; flex-wrap: wrap; gap: 2vw; justify-content: center; margin: 3vw 0; max-width: 1000px; margin-left: auto; margin-right: auto;">
+      <div><img src="image1.jpg" alt="Atmosphere image1" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image2.jpg" alt="Atmosphere image2" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image3.jpg" alt="Atmosphere image3" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image4.jpg" alt="Atmosphere image4" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image5.jpg" alt="Atmosphere image5" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image6.jpg" alt="Atmosphere image6" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image7.jpg" alt="Atmosphere image7" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image8.jpg" alt="Atmosphere image8" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image9.jpg" alt="Atmosphere image9" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image10.jpg" alt="Atmosphere image10" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image11.jpg" alt="Atmosphere image11" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image12.jpg" alt="Atmosphere image12" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image13.jpg" alt="Atmosphere image13" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image14.jpg" alt="Atmosphere image14" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image15.jpg" alt="Atmosphere image15" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image16.jpg" alt="Atmosphere image16" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image17.jpg" alt="Atmosphere image17" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image18.jpg" alt="Atmosphere image18" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image19.jpg" alt="Atmosphere image19" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image20.jpg" alt="Atmosphere image20" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image21.jpg" alt="Atmosphere image21" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image22.jpg" alt="Atmosphere image22" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image23.jpg" alt="Atmosphere image23" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image24.jpg" alt="Atmosphere image24" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image25.jpg" alt="Atmosphere image25" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image26.jpg" alt="Atmosphere image26" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image27.jpg" alt="Atmosphere image27" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image28.jpg" alt="Atmosphere image28" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image29.jpg" alt="Atmosphere image29" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image30.jpg" alt="Atmosphere image30" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image31.jpg" alt="Atmosphere image31" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image32.jpg" alt="Atmosphere image32" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image33.jpg" alt="Atmosphere image33" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div><img src="image34.jpg" alt="Atmosphere image34" style="width:100%; height:auto; max-width:300px; border-radius:14px; box-shadow:0 0 8px #7ecfff;" onclick="showOverlay(this.src)"></div>
+      <div style="flex-basis: 100%; height: 0;"></div>
+      <div style="width:100%; display:flex; justify-content:center; margin-top:2vw;">
+        <a href="index.html" class="back-btn" style="font-size:1.2vw; color:#ffd32a; text-decoration:none; background:rgba(10,16,38,0.8); border-radius:10px; padding:1vw 2vw; box-shadow:0 0 8px #7ecfff; display:inline-block; text-align:center;">
+          &#8592; Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+  <div id="effects-container"></div>
+  <div id="bottom-gradient"></div>
+  <div id="imgOverlay" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(10,16,38,0.95); align-items:center; justify-content:center;">
+    <img id="overlayImg" src="" alt="Full Size" style="max-width:90vw; max-height:90vh; border-radius:18px; box-shadow:0 0 32px #000a;">
+  </div>
+  <script>
+  // Place this instead of your current planet placement loop
+  // This will place all 8 planets, each only once, randomly on left or right
+  const planetImages = [
+    'planet1.png',
+    'planet2.png',
+    'planet3.png',
+    'planet4.png',
+    'planet5.png',
+    'planet6.png',
+    'planet7.png',
+    'planet8.png'
+  ];
+
+  // Shuffle the array to randomize order
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  shuffle(planetImages);
+
+  for (let i = 0; i < planetImages.length; i++) {
+    const img = document.createElement('img');
+    img.src = planetImages[i];
+    img.alt = 'Planet';
+    img.style.position = 'absolute';
+    img.style.width = '80px';
+    img.style.height = '80px';
+    img.style.zIndex = 1;
+    img.style.pointerEvents = 'none';
+    img.style.top = Math.random() * 95 + '%';
+
+    // Place planets only on the left 0-20% or right 80-100% of the page
+    const side = Math.random() < 0.5 ? 'left' : 'right';
+    if (side === 'left') {
+      img.style.left = (Math.random() * 20) + '%';
+    } else {
+      img.style.left = (80 + Math.random() * 20) + '%';
+    }
+
+    document.querySelector('.stars').appendChild(img);
+  }
+
+  // If you want to repeat some planets near day 6 to 8, you can add this:
+  for (let i = 5; i < 8; i++) { // repeat planets 6, 7, 8
+    const img = document.createElement('img');
+    img.src = planetImages[i];
+    img.alt = 'Planet';
+    img.style.position = 'absolute';
+    img.style.width = '80px';
+    img.style.height = '80px';
+    img.style.zIndex = 1;
+    img.style.pointerEvents = 'none';
+    // Place these a bit lower on the page (e.g. 60% to 95% from top)
+    img.style.top = (60 + Math.random() * 35) + '%';
+    const side = Math.random() < 0.5 ? 'left' : 'right';
+    if (side === 'left') {
+      img.style.left = (Math.random() * 20) + '%';
+    } else {
+      img.style.left = (80 + Math.random() * 20) + '%';
+    }
+    document.querySelector('.stars').appendChild(img);
+  }
+  </script>
+  <script>
+  // --- Shooting Star Asteroid (single image, max 2 at a time, whole page) ---
+  let activeAsteroids = 0;
+  const maxAsteroids = 2;
+
+  function spawnShootingAsteroid() {
+    if (activeAsteroids >= maxAsteroids) return;
+    activeAsteroids++;
+
+    const img = document.createElement('img');
+    img.src = 'asteroid1.png'; // Only one asteroid image
+    img.alt = 'Asteroid';
+    img.className = 'moving-asteroid';
+    img.style.position = 'absolute';
+    img.style.width = '48px';
+    img.style.height = '48px';
+    img.style.zIndex = 2;
+    img.style.pointerEvents = 'none';
+
+    // Start at a random position anywhere in the .stars area
+    const stars = document.querySelector('.stars');
+    const starsRect = stars.getBoundingClientRect();
+    const pageHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    );
+    const startTop = Math.random() * (pageHeight * 0.95); // px
+    const startLeft = Math.random() * (window.innerWidth * 0.8); // px
+
+    img.style.top = startTop + 'px';
+    img.style.left = startLeft + 'px';
+
+    // Append to .stars so it doesn't cover content
+    stars.appendChild(img);
+
+    // Shooting star trajectory: move diagonally down and right
+    let progress = 0;
+    const duration = 100 + Math.random() * 60; // frames
+    const deltaX = 200 + Math.random() * 200; // px to move right
+    const deltaY = 120 + Math.random() * 120; // px to move down
+
+    function animate() {
+      progress++;
+      const frac = progress / duration;
+      img.style.top = (startTop + frac * deltaY) + 'px';
+      img.style.left = (startLeft + frac * deltaX) + 'px';
+      img.style.opacity = 1 - frac; // fade out
+
+      if (frac < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        img.remove();
+        activeAsteroids--;
+      }
+    }
+    animate();
+  }
+
+  // Try to spawn a new shooting asteroid every 1-2 seconds
+  setInterval(spawnShootingAsteroid, 1000 + Math.random() * 1000);
+  </script>
+  <script>
+  let activeShootingStars = 0;
+  const maxShootingStars = 2;
+
+  function spawnShootingStar() {
+    if (activeShootingStars >= maxShootingStars) return;
+    activeShootingStars++;
+
+    const stars = document.querySelector('.stars');
+    const pageHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    );
+    const pageWidth = window.innerWidth;
+    const deltaX = 200 + Math.random() * 200; // px to move right
+    const deltaY = 120 + Math.random() * 120; // px to move down
+
+    const img = document.createElement('img');
+    img.src = 'asteroid1.png';
+    img.alt = 'Shooting Star';
+    img.className = 'moving-asteroid';
+    img.style.position = 'absolute';
+    img.style.width = '48px';
+    img.style.height = '48px';
+    img.style.zIndex = 2;
+    img.style.pointerEvents = 'none';
+    img.style.top = startTop + 'px';
+    img.style.left = startLeft + 'px';
+    img.style.opacity = 1;
+    img.style.transform = 'rotate(180deg)';
+
+    // Remove rotation animation if present
+    img.style.animation = 'none';
+
+    stars.appendChild(img);
+
+    let progress = 0;
+    const duration = 100 + Math.random() * 60; // frames
+
+    function animate() {
+      progress++;
+      const frac = progress / duration;
+      img.style.top = (startTop + frac * deltaY) + 'px';
+      img.style.left = (startLeft + frac * deltaX) + 'px';
+      img.style.opacity = 1 - frac;
+      if (frac < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        img.remove();
+        activeShootingStars--;
+      }
+    }
+    animate();
+  }
+
+  // Make shooting stars appear more often (every 300–600ms)
+  setInterval(spawnShootingStar, 300 + Math.random() * 300);
+  </script>
+  <script>
+function showOverlay(src) {
+  document.getElementById('overlayImg').src = src;
+  document.getElementById('imgOverlay').style.display = 'flex';
+}
+document.getElementById('imgOverlay').onclick = function() {
+  this.style.display = 'none';
+  document.getElementById('overlayImg').src = '';
+};
+</script>
+</body>
+</html>

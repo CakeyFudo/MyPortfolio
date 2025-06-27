@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Press Start</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="press-start.css">
+</head>
+<body>
+  <div class="press-start-bg">
+    <!-- 2-bit stars -->
+    <div class="stars">
+      <div class="star blink1" style="top:12%; left:18%;"></div>
+      <div class="star blink2" style="top:22%; left:70%;"></div>
+      <div class="star blink3" style="top:60%; left:30%;"></div>
+      <div class="star blink1" style="top:80%; left:80%;"></div>
+      <div class="star blink2" style="top:40%; left:50%;"></div>
+      <div class="star blink3" style="top:75%; left:10%;"></div>
+      <div class="star blink1" style="top:10%; left:60%;"></div>
+      <div class="star blink2" style="top:55%; left:85%;"></div>
+      <div class="star blink2" style="top:30%; left:25%;"></div>
+      <!-- Additional stars for more density -->
+      <div class="star blink1" style="top:15%; left:40%;"></div>
+      <div class="star blink2" style="top:35%; left:60%;"></div>
+      <div class="star blink3" style="top:50%; left:80%;"></div>
+      <div class="star blink1" style="top:65%; left:20%;"></div>
+      <div class="star blink2" style="top:85%; left:55%;"></div>
+      <div class="star blink3" style="top:25%; left:85%;"></div>
+      <div class="star blink1" style="top:5%; left:5%;"></div>
+      <div class="star blink2" style="top:95%; left:95%;"></div>
+      <div class="star blink3" style="top:50%; left:10%;"></div>
+      <div class="star blink1" style="top:70%; left:70%;"></div>
+      <div class="star blink2" style="top:80%; left:35%;"></div>
+    </div>
+    <div class="press-start-screen">
+      <div class="press-start-overlay"></div>
+      <div class="press-start-title">PRESS&nbsp;&nbsp;START</div>
+      <div class="press-start-sub">CLICK&nbsp;&nbsp;TO&nbsp;&nbsp;CONTINUE</div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('mousedown', function(e) {
+      if (e.button === 0) { // Left mouse button
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>

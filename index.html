@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="press-start.css">
+  <style>
+    .menu-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4.2rem;
+      z-index: 4;
+      position: relative;
+      margin-top: 4vw;
+    } 
+    .menu-item {
+      font-family: 'Press Start 2P', monospace, cursive;
+      font-size: 2vw;
+      color: #fff;
+      position: relative;
+      cursor: pointer;
+      transition: color 0.15s;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .menu-item .arrow {
+      display: none;
+      margin-right: 1.5vw;
+      font-size: 2vw;
+      color: #ffd32a;
+      transition: opacity 0.15s;
+    }
+    .menu-item:hover {
+      color: #ffd32a;
+    }
+    .menu-item:hover .arrow {
+      display: inline;
+      opacity: 1;
+      animation: arrow-pop 0.2s;
+    }
+    @keyframes arrow-pop {
+      0% { transform: translateX(-10px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    .egg-link {
+      position: fixed;
+      left: 2vw;
+      bottom: 2vw;
+      z-index: 9999; /* Make sure it's on top of everything */
+      display: block;
+      width: 64px;
+      height: 64px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .egg-link:hover {
+      transform: scale(1.15) rotate(-8deg);
+    }
+    .pixel-egg {
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+      object-fit: contain;
+      /* Crop to show only the pink egg (4th in the grid) */
+      object-position: 0 -128px;
+      clip-path: inset(128px 256px 128px 0); /* Show only the pink egg */
+      border-radius: 8px;
+      background: #222;
+      box-shadow: 0 0 12px #ffd32a88;
+    }
+    .pixel-egg-pink {
+      width: 64px;
+      height: 64px;
+      image-rendering: pixelated;
+      background: transparent;
+      position: relative;
+    }
+    .pixel-egg-pink::before {
+      content: '';
+      display: block;
+      width: 8px;
+      height: 8px;
+      position: absolute;
+      left: 0; top: 0;
+      box-shadow:
+        /* Outline (black) */
+        24px 0px #000, 32px 0px #000,
+        16px 8px #000, 40px 8px #000,
+        8px 16px #000, 48px 16px #000,
+        8px 24px #000, 48px 24px #000,
+        0px 32px #000, 56px 32px #000,
+        0px 40px #000, 56px 40px #000,
+        8px 48px #000, 48px 48px #000,
+        16px 56px #000, 40px 56px #000,
+        24px 64px #000, 32px 64px #000,
+        /* Main fill (gold shades) */
+        24px 8px #ffe066, 32px 8px #ffe066,
+        16px 16px #ffe066, 24px 16px #ffe066, 32px 16px #ffe066, 40px 16px #ffd700,
+        8px 24px #ffe066, 16px 24px #ffe066, 24px 24px #ffd700, 32px 24px #ffd700, 40px 24px #ffd700, 48px 24px #ffe066,
+        8px 32px #ffe066, 16px 32px #ffd700, 24px 32px #ffe066, 32px 32px #ffe066, 40px 32px #ffd700, 48px 32px #ffe066,
+        8px 40px #ffe066, 16px 40px #ffd700, 24px 40px #ffe066, 32px 40px #ffe066, 40px 40px #ffd700, 48px 40px #ffe066,
+        16px 48px #ffe066, 24px 48px #ffd700, 32px 48px #ffd700, 40px 48px #ffe066,
+        24px 56px #ffe066, 32px 56px #ffe066,
+        /* Shine (lighter gold/white) */
+        24px 16px #fffbe6, 32px 16px #fffbe6,
+        24px 24px #fffbe6, 32px 24px #fffbe6,
+        24px 32px #fffbe6, 32px 32px #fffbe6,
+        /* Shading (darker gold) */
+        40px 48px #bfa100, 48px 40px #bfa100, 40px 56px #bfa100,
+        16px 56px #bfa100, 8px 48px #bfa100, 8px 40px #bfa100,
+        /* Stripes (orange) */
+        16px 20px #ffb300, 24px 20px #ffb300, 32px 20px #ffb300, 40px 20px #ffb300,
+        16px 28px #ffb300, 24px 28px #ffb300, 32px 28px #ffb300, 40px 28px #ffb300,
+        16px 36px #ffb300, 24px 36px #ffb300, 32px 36px #ffb300, 40px 36px #ffb300,
+        24px 44px #ffb300, 32px 44px #ffb300
+      ;
+    }
+    /* Add this to your <style> section */
+    .egg-dialogue {
+      display: none;
+      position: fixed;
+      left: 7vw;
+      bottom: 7vw;
+      z-index: 10000;
+      background: #222;
+      color: #ffd32a;
+      font-family: 'Press Start 2P', monospace, cursive;
+      font-size: 0.9vw;
+      padding: 1rem 1.5rem;
+      border: 3px solid #ffd32a;
+      border-radius: 12px;
+      box-shadow: 0 0 16px #000a;
+      white-space: nowrap;
+      pointer-events: none;
+      animation: egg-pop 0.25s;
+    }
+    @keyframes egg-pop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .egg-link:hover + .egg-dialogue,
+    .egg-link:focus + .egg-dialogue {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="press-start-bg">
+    <!-- 2-bit stars -->
+    <div class="stars">
+      <div class="star blink1" style="top:12%; left:18%;"></div>
+      <div class="star blink2" style="top:22%; left:70%;"></div>
+      <div class="star blink3" style="top:60%; left:30%;"></div>
+      <div class="star blink1" style="top:80%; left:80%;"></div>
+      <div class="star blink2" style="top:40%; left:50%;"></div>
+      <div class="star blink3" style="top:75%; left:10%;"></div>
+      <div class="star blink1" style="top:10%; left:60%;"></div>
+      <div class="star blink2" style="top:55%; left:85%;"></div>
+      <div class="star blink2" style="top:30%; left:25%;"></div>
+      <!-- Additional stars for more density -->
+      <div class="star blink1" style="top:15%; left:40%;"></div>
+      <div class="star blink2" style="top:35%; left:60%;"></div>
+      <div class="star blink3" style="top:50%; left:80%;"></div>
+      <div class="star blink1" style="top:65%; left:20%;"></div>
+      <div class="star blink2" style="top:85%; left:55%;"></div>
+      <div class="star blink3" style="top:25%; left:85%;"></div>
+      <div class="star blink1" style="top:5%; left:5%;"></div>
+      <div class="star blink2" style="top:95%; left:95%;"></div>
+      <div class="star blink3" style="top:50%; left:10%;"></div>
+      <div class="star blink1" style="top:70%; left:70%;"></div>
+      <div class="star blink2" style="top:80%; left:35%;"></div>
+    </div>
+    <div class="press-start-screen">
+      <div class="press-start-overlay"></div>
+      <div class="press-start-title" style="margin-bottom: 1.5rem;">MY PORTFOLIO</div>
+      <div class="press-start-sub" style="font-size:1vw; margin-bottom: 3.5rem;">Myke Franciz Jimenez</div>
+      <div class="menu-list">
+        <a href="Projects.html" class="menu-item" style="text-decoration: none;"><span class="arrow">&#9654;</span>PROJECTS</a>
+        <a href="AboutMe.html" class="menu-item" style="text-decoration: none;"><span class="arrow">&#9654;</span>ABOUT ME</a>
+        <div class="menu-item"><span class="arrow">&#9654;</span>CONTACTS</div>
+      </div>
+    </div>
+  </div> <!-- end of .press-start-bg -->
+  <a href="Blogpostmanila.html" target="_blank" class="egg-link">
+    <div class="pixel-egg-pink"></div>
+  </a>
+  <div class="egg-dialogue">You found an easter egg</div>
+</body>
+</html>

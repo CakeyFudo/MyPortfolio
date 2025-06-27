@@ -1,0 +1,129 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.press-start-bg {
+  background: radial-gradient(ellipse at center, #23234b 0%, #18182f 100%);
+  height: 100vh;
+  width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.stars {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 3; /* move stars forward */
+}
+.star {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+.star::before, .star::after {
+  content: '';
+  position: absolute;
+  background: #fff;
+  border-radius: 1px;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.star::before {
+  width: 10px;
+  height: 2px;
+  left: 0; top: 4px;
+}
+.star::after {
+  width: 2px;
+  height: 10px;
+  left: 4px; top: 0;
+}
+@keyframes blink-star {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 0.2; }
+}
+.star.blink1::before, .star.blink1::after { animation: blink-star 1.2s infinite; }
+.star.blink2::before, .star.blink2::after { animation: blink-star 1.6s infinite 0.5s; }
+.star.blink3::before, .star.blink3::after { animation: blink-star 2s infinite 1s; }
+
+.press-start-screen {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(17,17,17,0.98);
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 0 80px 10px #000a inset, 0 0 0 8px #ffd32a;
+  position: relative;
+}
+
+.press-start-title {
+  font-family: 'Press Start 2P', monospace, cursive;
+  color: #ffd32a;
+  font-size: 4rem;
+  letter-spacing: 10px;
+  margin-bottom: 3.5rem;
+  text-shadow:
+    0 0 16px #ffd32a,
+    0 0 32px #ffb347,
+    2px 2px 0 #000,
+    0 4px 12px #ff6961;
+  text-align: center;
+  filter: brightness(1.2) contrast(1.2);
+  animation: flicker 1.2s infinite alternate;
+  position: relative;
+  z-index: 4;
+}
+
+@keyframes flicker {
+  0% { opacity: 1; text-shadow: 0 0 16px #ffd32a, 0 0 32px #ffb347, 2px 2px 0 #000, 0 4px 12px #ff6961; }
+  90% { opacity: 0.95; text-shadow: 0 0 12px #ffd32a, 0 0 20px #ffb347, 2px 2px 0 #000, 0 2px 8px #ff6961; }
+  100% { opacity: 0.8; text-shadow: 0 0 8px #ffd32a, 0 0 8px #ffb347, 2px 2px 0 #000, 0 1px 4px #ff6961; }
+}
+
+.press-start-sub {
+  font-family: 'Press Start 2P', monospace, cursive;
+  color: #fff;
+  font-size: 2rem;
+  letter-spacing: 8px;
+  text-shadow:
+    0 0 8px #fff,
+    2px 2px 0 #000,
+    0 2px 8px #ffd32a;
+  text-align: center;
+  filter: brightness(1.1);
+  animation: blink-sub 1.5s steps(1) infinite;
+  position: relative;
+  z-index: 4;
+}
+
+@keyframes blink-sub {
+  0%, 80% { opacity: 1; }
+  90%, 100% { opacity: 0.3; }
+}
+
+/* Add this for the overlay if you use one */
+.press-start-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(17,17,17,0.96);
+  z-index: 2; /* overlay is behind stars */
+  pointer-events: none;
+}
