@@ -148,7 +148,7 @@
   </style>
 </head>
 <body>
-  <div class="press-start-bg">
+  <div class="press-start-bg" id="pressStartBg">
     <!-- 2-bit stars -->
     <div class="stars">
       <div class="star blink1" style="top:12%; left:18%;"></div>
@@ -173,7 +173,12 @@
       <div class="star blink1" style="top:70%; left:70%;"></div>
       <div class="star blink2" style="top:80%; left:35%;"></div>
     </div>
-    <div class="press-start-screen">
+    <div class="press-start-screen" id="pressStartScreen">
+      <div class="press-start-overlay"></div>
+      <div class="press-start-title">PRESS&nbsp;&nbsp;START</div>
+      <div class="press-start-sub">CLICK&nbsp;&nbsp;TO&nbsp;&nbsp;CONTINUE</div>
+    </div>
+    <div class="press-start-screen" id="mainMenuScreen" style="display:none; flex-direction:column; align-items:center; justify-content:center; width:100vw; height:100vh;">
       <div class="press-start-overlay"></div>
       <div class="press-start-title" style="margin-bottom: 1.5rem;">MY PORTFOLIO</div>
       <div class="press-start-sub" style="font-size:1vw; margin-bottom: 3.5rem;">Myke Franciz Jimenez</div>
@@ -188,5 +193,31 @@
     <div class="pixel-egg-pink"></div>
   </a>
   <div class="egg-dialogue">You found an easter egg</div>
+  <script>
+    // Press Start logic
+    const pressStartScreen = document.getElementById('pressStartScreen');
+    const mainMenuScreen = document.getElementById('mainMenuScreen');
+    let hasStarted = false;
+    function showMainMenu() {
+      if (hasStarted) return;
+      hasStarted = true;
+      pressStartScreen.style.display = 'none';
+      mainMenuScreen.style.display = 'flex';
+    }
+    pressStartScreen.addEventListener('mousedown', function(e) {
+      if (e.button === 0) {
+        showMainMenu();
+      }
+    });
+    pressStartScreen.addEventListener('touchstart', function() {
+      showMainMenu();
+    });
+    // Optionally allow keyboard (Enter/Space)
+    document.addEventListener('keydown', function(e) {
+      if (!hasStarted && (e.key === 'Enter' || e.key === ' ')) {
+        showMainMenu();
+      }
+    });
+  </script>
 </body>
 </html>
