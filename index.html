@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Portfolio</title>
+  <title>Myke Franciz Jimenez</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="press-start.css">
   <style>
@@ -185,7 +185,7 @@
       <div class="menu-list">
         <a href="Projects.html" class="menu-item" style="text-decoration: none;"><span class="arrow">&#9654;</span>PROJECTS</a>
         <a href="AboutMe.html" class="menu-item" style="text-decoration: none;"><span class="arrow">&#9654;</span>ABOUT ME</a>
-        <div class="menu-item"><span class="arrow">&#9654;</span>CONTACTS</div>
+        <a href="Contacts.html" class="menu-item" style="text-decoration: none;"><span class="arrow">&#9654;</span>CONTACTS</a>
       </div>
     </div>
   </div> <!-- end of .press-start-bg -->
@@ -197,12 +197,20 @@
     // Press Start logic
     const pressStartScreen = document.getElementById('pressStartScreen');
     const mainMenuScreen = document.getElementById('mainMenuScreen');
+    // Use sessionStorage to remember if Press Start was shown
     let hasStarted = false;
     function showMainMenu() {
       if (hasStarted) return;
       hasStarted = true;
       pressStartScreen.style.display = 'none';
       mainMenuScreen.style.display = 'flex';
+      sessionStorage.setItem('pressStartShown', '1');
+    }
+    // On load, check if Press Start was already shown in this session
+    if (sessionStorage.getItem('pressStartShown') === '1') {
+      pressStartScreen.style.display = 'none';
+      mainMenuScreen.style.display = 'flex';
+      hasStarted = true;
     }
     pressStartScreen.addEventListener('mousedown', function(e) {
       if (e.button === 0) {
