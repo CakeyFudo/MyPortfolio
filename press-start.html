@@ -7,9 +7,104 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="press-start.css">
   <style>
+    html, body {
+      box-sizing: border-box;
+      overflow-x: hidden;
+      width: 100vw;
+      max-width: 100vw;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+    /* Responsive adjustments */
     @media (max-width: 700px) {
+      .about-frame {
+        padding: 4vw 1vw 2vw 1vw;
+        width: 100%;
+        max-width: 600px;
+        margin: 2vw auto 0 auto;
+        box-shadow: 0 0 16px #000a;
+      }
+      .about-title {
+        font-size: 6vw;
+        padding: 1.2rem 2vw;
+        margin-top: 2vw;
+        margin-bottom: 3vw;
+        letter-spacing: 2px;
+        line-height: 1.2;
+      }
+      .blog-content {
+        font-size: 4vw;
+        padding: 4vw 2vw 2vw 2vw;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 3vw;
+        line-height: 1.7;
+        border-radius: 10px;
+        box-sizing: border-box;
+        overflow-wrap: break-word;
+      }
+      .blog-content p {
+        margin-bottom: 2vw;
+      }
+      .blog-content div[style*="font-size"] {
+        font-size: 4.5vw !important;
+        margin-bottom: 1vw;
+      }
+      .blog-images,
+      .blog-content > div[style*="display: flex"] {
+        flex-direction: column !important;
+        align-items: center !important;
+        margin: 2vw 0 3vw 0 !important;
+      }
+      .blog-images img,
+      .blog-content img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        border-radius: 10px !important;
+        margin: 0 auto !important;
+        box-shadow: 0 0 8px #0006;
+        display: block;
+      }
+      .back-btn {
+        font-size: 4vw;
+        margin-bottom: 4vw;
+        padding: 2vw 3vw;
+        border-radius: 8px;
+      }
+      .back-btn .arrow {
+        font-size: 5vw;
+      }
+      .atmosphere-gallery {
+        gap: 4vw;
+        margin: 6vw 0;
+      }
+      .atmosphere-gallery div {
+        min-width: 120px;
+        max-width: 100%;
+        margin-bottom: 3vw;
+      }
+      .atmosphere-gallery img {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 10px;
+        display: block;
+      }
+      #atmosphere-effect {
+        min-height: 60vh;
+      }
+    }
+    @media (max-width: 700px) {
+      .press-start-bg {
+        min-height: 100vh;
+        width: 100vw;
+        padding: 0;
+      }
       .press-start-title, .press-start-sub {
-        font-size: 5vw !important;
+        font-size: 7vw !important;
+        letter-spacing: 2vw;
       }
       .press-start-screen {
         padding: 4vw 2vw;

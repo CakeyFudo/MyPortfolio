@@ -6,30 +6,75 @@
   <title>Industry Immersion Tour</title>
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
+    html, body {
+      box-sizing: border-box;
+      overflow-x: hidden;
+      width: 100vw;
+      max-width: 100vw;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
     /* Responsive adjustments */
     @media (max-width: 700px) {
       .about-frame {
-        padding: 6vw 2vw;
-        max-width: 98vw;
+        padding: 4vw 1vw 2vw 1vw;
+        width: 100%;
+        max-width: 600px;
         margin: 2vw auto 0 auto;
+        box-shadow: 0 0 16px #000a;
       }
       .about-title {
-        font-size: 5vw;
+        font-size: 6vw;
         padding: 1.2rem 2vw;
         margin-top: 2vw;
-        margin-bottom: 4vw;
+        margin-bottom: 3vw;
+        letter-spacing: 2px;
+        line-height: 1.2;
       }
       .blog-content {
-        font-size: 3.5vw;
-        padding: 3vw 2vw;
-        max-width: 98vw;
+        font-size: 4vw;
+        padding: 4vw 2vw 2vw 2vw;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 3vw;
+        line-height: 1.7;
+        border-radius: 10px;
+        box-sizing: border-box;
+        overflow-wrap: break-word;
+      }
+      .blog-content p {
+        margin-bottom: 2vw;
+      }
+      .blog-content div[style*="font-size"] {
+        font-size: 4.5vw !important;
+        margin-bottom: 1vw;
+      }
+      .blog-images,
+      .blog-content > div[style*="display: flex"] {
+        flex-direction: column !important;
+        align-items: center !important;
+        margin: 2vw 0 3vw 0 !important;
+      }
+      .blog-images img,
+      .blog-content img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        border-radius: 10px !important;
+        margin: 0 auto !important;
+        box-shadow: 0 0 8px #0006;
+        display: block;
       }
       .back-btn {
-        font-size: 3vw;
+        font-size: 4vw;
         margin-bottom: 4vw;
+        padding: 2vw 3vw;
+        border-radius: 8px;
       }
       .back-btn .arrow {
-        font-size: 4vw;
+        font-size: 5vw;
       }
       .atmosphere-gallery {
         gap: 4vw;
@@ -37,11 +82,17 @@
       }
       .atmosphere-gallery div {
         min-width: 120px;
-        max-width: 98vw;
+        max-width: 100%;
+        margin-bottom: 3vw;
       }
       .atmosphere-gallery img {
-        max-width: 98vw;
-        border-radius: 8px;
+        width: 100%;
+        max-width: 300px;
+        border-radius: 10px;
+        display: block;
+      }
+      #atmosphere-effect {
+        min-height: 60vh;
       }
     }
     body {
@@ -51,6 +102,8 @@
       background-size: 420px 420px;
       font-family: 'Press Start 2P', monospace, cursive;
       overflow-x: hidden;
+      width: 100vw;
+      max-width: 100vw;
     }
     .stars {
       position: absolute;
@@ -121,6 +174,7 @@
       margin-bottom: 2vw;
       box-shadow: none;
       display: inline-block;
+      word-break: break-word;
     }
     .blog-content {
       color: #fff;
@@ -135,6 +189,7 @@
       border-radius: 12px;
       box-shadow: 0 0 8px #0006;
       max-width: 600px;
+      word-break: break-word;
     }
     .back-btn {
       cursor: pointer;
@@ -461,124 +516,108 @@
     <a href="index.html" class="back-btn"><span class="arrow">&#8592;</span>BACK</a>
     <div class="about-title">INDUSTRY IMMERSION TOUR</div>
     <div class="blog-content"> 
-      <p>
-        In this blog I will talk about our immersion tour in Manila from day 1 to day 8.<br>
-        We visited 6 total tech related companies and after that we were also given a chance to explore Manila. That includes going to tourist spots and also getting to know the history of Manila and origins of specific places.
+      <p style="font-weight: bold; color: #ffd32a; text-align: center; font-size: 1.1em; margin-bottom: 2vw;">A Journey Through Manila's Tech Scene & Culture</p>
+      <p style="margin-bottom: 2vw;">
+        Join me as I share highlights from our 8-day immersion tour in Manila! We explored 6 innovative tech companies, discovered iconic tourist spots, and learned about the rich history and vibrant culture of the city. Here’s a day-by-day look at our adventure:
       </p>
-      <div class="blog-images" style="display: flex; justify-content: center; margin-top: 2vw;">
-        <img src="day0.webp" alt="Industry Immersion Tour" style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+      <div class="blog-images" style="display: flex; justify-content: center; align-items: center; margin-top: 2vw;">
+        <img src="day0.webp" alt="Industry Immersion Tour group photo" style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div>
     <div class="blog-content" style="margin-top: 2vw;">
-      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
-        Day 1
-      </div>
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">Day 1</div>
       <p>
-        Our first day is when we arrived in NAIA Terminal 3. We were greeted by our tour guide and then we went to MOA (Mall of Asia) to have explore. After that we went to our Dormitory to rest for a while. In the evening, we had a welcome dinner and where me and my classmates shared our expectations for the tour.
+        We landed at NAIA Terminal 3, excited for the week ahead! After meeting our tour guide, we explored the Mall of Asia, then checked into our dorm to rest. That evening, we enjoyed a welcome dinner and shared our hopes for the tour with classmates.
       </p>
-      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+      <div class="blog-images">
         <img 
           src="day1.webp" 
           alt="Day 1 - Industry Immersion Tour" 
-          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+          style="width: 600px; max-width: 95vw; height: auto; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div>
     <div class="blog-content" style="margin-top: 2vw;">
-      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
-        Day 2
-      </div>
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">Day 2</div>
       <p>
-        Day 2 started with a visit to our first tech company which is FOUNDEVER. We had the opportunity to meet with their team, learn about their projects, and understand their work culture. In the afternoon we visited another tech company a very known company which is GOOGLE and we had a chance to see their office.
+        Our first company stop: FOUNDEVER! We met their team, learned about their projects, and got a feel for their work culture. In the afternoon, we visited the Google office—an inspiring experience seeing how a global tech giant operates up close.
       </p>
-      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+      <div class="blog-images">
         <img 
           src="day2.webp" 
           alt="Day 2 - Industry Immersion Tour" 
-          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+          style="width: 600px; max-width: 95vw; height: auto; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div>
     <div class="blog-content" style="margin-top: 2vw;">
-      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
-        Day 3
-      </div>
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">Day 3</div>
       <p>
-        On the third day, we visited a tech company called Teleperformance. We learned about their operations and how they handle customer serivices. The afternoon we visisted another tech company called Kollab where we learned about culture and some tips and tricks on making a porfolio and how AI is very heplful in the tech industry.
+        We visited Teleperformance and discovered how they manage customer service at scale. Later, at Kollab, we learned about company culture, portfolio tips, and how AI is shaping the tech industry. It was a day full of insights!
       </p>
-      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+      <div class="blog-images">
         <img 
           src="day3.webp" 
           alt="Day 3 - Industry Immersion Tour" 
-          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+          style="width: 600px; max-width: 95vw; height: auto; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div>
     <div class="blog-content" style="margin-top: 2vw;">
-      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
-        Day 4
-      </div>
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">Day 4</div>
       <p>
-        On the last day of visiting tech companies we visited a company called ADB (Asian Development Bank). We learned about their history and their employees and we also had a tour of their offices. After that we visited our last tech company which is called Microsourcing we had a tour of their offices and learned about their projects and how they operate.
+        Our final day of company visits took us to ADB (Asian Development Bank), where we learned about their mission and toured their impressive offices. We wrapped up with Microsourcing, discovering their projects and how they support clients worldwide.
       </p>
-      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+      <div class="blog-images">
         <img 
           src="day4.webp" 
           alt="Day 4 - Industry Immersion Tour" 
-          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+          style="width: 600px; max-width: 95vw; height: auto; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div>
     <div class="blog-content" style="margin-top: 2vw;">
-      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
-        Day 5
-      </div>
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">Day 5</div>
       <p>
-        On day 5 we headed to Tagatay to visit the People's Park in the sky. We enjoyed the scenic views and took many photos. After that we went to Skyranch Tagatay where we enjoyed the rides and had a lot of fun. In the evening we went to Trinoma Mall to do some shopping and have dinner.
+        We traveled to Tagaytay and visited People’s Park in the Sky, soaking in breathtaking views. Skyranch brought out our adventurous side with fun rides, and we ended the day shopping and dining at Trinoma Mall.
       </p>
-      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+      <div class="blog-images">
         <img 
           src="day5.webp" 
           alt="Day 5 - Industry Immersion Tour" 
-          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+          style="width: 600px; max-width: 95vw; height: auto; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div>
     <div class="blog-content" style="margin-top: 2vw;">
-      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
-        Day 6
-      </div>
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">Day 6</div>
       <p>
-       We packed up our bags because we are going to Baguio City. We took a bus to Baguio and enjoyed the scenic views along the way. When we arrived in Baguio, we checked into our hotel and then went to Burnham Park to relax and enjoy the cool weather. In the evening, we visited the night market and tried some of the famous Baguio dishes.
+        Bags packed, we set off for Baguio City! The scenic bus ride was a highlight. After checking in, we relaxed at Burnham Park and later explored the night market, sampling delicious local dishes.
       </p>
-      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+      <div class="blog-images">
         <img 
           src="day6.webp" 
           alt="Day 6 - Industry Immersion Tour" 
-          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+          style="width: 600px; max-width: 95vw; height: auto; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div>
     <div class="blog-content" style="margin-top: 2vw;">
-      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
-        Day 7
-      </div>
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">Day 7</div>
       <p>
-        On this day we were given the free time to roam around Baguio City. We hiked our way to the SM City Baguio where it is famous for being the only mall to not have air conditioning. After that we went back to Quezon City because majority of us are going to fly back home the next day.
+        Free day! We explored Baguio City, hiked to SM City Baguio (famous for its natural ventilation), and enjoyed the cool mountain air. That evening, we returned to Quezon City to prepare for our journey home.
       </p>
-      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+      <div class="blog-images">
         <img 
           src="day7.webp" 
           alt="Day 7 - Industry Immersion Tour" 
-          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+          style="width: 600px; max-width: 95vw; height: auto; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div>
     <div class="blog-content" style="margin-top: 2vw;">
-      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">
-        Day 8
-      </div>
+      <div style="font-size: 1.2vw; color: #ffd32a; margin-bottom: 1vw; text-shadow: 1px 1px 0 #000;">Day 8</div>
       <p>
-        On day 8 we packed our bag and checked out of the Dormitory said our goodbyes to our tour guide and classmates. Me and my friends extended our stay in Manila for 3 more days to explore more of Manila. We visited Intramuros, Rizal Park, and other famous landmarks in Manila. We also tried some of the famous Filipino dishes and bought some souvenirs to bring back home.
+        We said our goodbyes and checked out, but my friends and I stayed a few extra days to explore Manila further. We visited Intramuros, Rizal Park, and other landmarks, tasted more Filipino food, and picked up souvenirs to remember this amazing trip.
       </p>
-      <div style="display: flex; justify-content: center; margin: 2vw 0;">
+      <div class="blog-images">
         <img 
           src="day8.webp" 
           alt="Day 8 - Industry Immersion Tour" 
-          style="width: 600px; height: 340px; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
+          style="width: 600px; max-width: 95vw; height: auto; object-fit: cover; border: 2px solid #ffd32a; border-radius: 12px; box-shadow: 0 0 8px #0006;">
       </div>
     </div> <!-- This closes .about-frame -->
   </div>
